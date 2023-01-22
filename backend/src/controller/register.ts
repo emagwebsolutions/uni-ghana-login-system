@@ -1,26 +1,25 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import Register from '../model/register'
+import Errors from '../error/Errors';
 
-export const addUser = async (req: Request, res: Response) => {
+export const addUser = async (req: Request, res: Response,next: NextFunction) => {
+
   try {
 
-    const reg = await new Register({
-      firstname: 'Bernice',
-      lastname: 'Agyemang',
-      mobile: '0550767765',
-      email: 'me@gmail.com',
-      password: 'sdfsfdsfdsfdsf',
-      gender: 'Male'
-    });
+ next(new Errors('Fake error', 404))
 
-    reg.save();
+    // const reg = await new Register({
+    //   firstname: 'Bernice',
+    //   lastname: 'Agyemang',
+    //   mobile: '0550767765',
 
-    res.json({
-      success: true,
-      message: reg,
-    });
+    // });
+
+    // reg.save();
 
   } catch (err) {
-    console.log(err)
+    next(err)
   }
+
+  
 };
