@@ -10,11 +10,10 @@ export const addUser = async (
   try {
     const { firstname, lastname, mobile, email, password, gender } = req.body;
 
-    //All fields required 
-    if(Object.values(req.body).length < 6){
-      return next(new Errors('All fields required!', 400))
+    //All fields required
+    if (Object.values(req.body).length < 6) {
+      return next(new Errors('All fields required!', 400));
     }
-
 
     const reg = await new Register({
       firstname,

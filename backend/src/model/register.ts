@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const register = new mongoose.Schema({
   firstname: {
@@ -13,18 +13,31 @@ const register = new mongoose.Schema({
     type: String,
     required: [true, 'Mobile Phone required!'],
     maxLength: 10,
+    unique: true,
   },
-  email: String,
+  email: {
+    type: String,
+    unique: true,
+  },
   password: {
     type: String,
     required: [true, 'Password field required!'],
     minLength: 6,
+    select: false,
   },
   gender: {
     type: String,
     required: [true, 'Gender field required!'],
   },
+
+  passwordresettoken: String,
+  passwordresetexpiry: Date,
 });
+
+
+
+
+
 
 const registration = mongoose.model('Register', register);
 
