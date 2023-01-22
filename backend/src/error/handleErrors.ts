@@ -20,9 +20,9 @@ const handleErrors = (
     error = new Errors('Avoid duplicate values!', 400);
   }
 
-  res.status(error.statusCode).json({
+  res.status(error.statusCode || 500).json({
     success: false,
-    message: error.message,
+    message: error.message || 'Server error',
   });
 };
 

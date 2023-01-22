@@ -15,16 +15,16 @@ export const addUser = async (
       return next(new Errors('All fields required!', 400));
     }
 
-    const reg = await new Register({
+    const reg = await Register.create({
       firstname,
       lastname,
       mobile,
       email,
       password,
-      gender,
+      gender, 
     });
 
-    reg.save();
+    //reg.save();
 
     res.json({
       success: true,

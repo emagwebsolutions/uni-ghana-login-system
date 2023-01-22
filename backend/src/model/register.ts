@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 const register = new mongoose.Schema({
   firstname: {
@@ -34,10 +35,16 @@ const register = new mongoose.Schema({
   passwordresetexpiry: Date,
 });
 
+register.pre('save', async function (next) {
+  if (!this.isModified('password')) {
+    next();
+  }
 
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
 
-
-
+  next();
+});
 
 const registration = mongoose.model('Register', register);
 
