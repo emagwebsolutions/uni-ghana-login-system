@@ -4,6 +4,11 @@ import dotenv from 'dotenv';
 import connection from './config/connect';
 import routes from './routes';
 import handleErrors from './error/handleErrors';
+import passport from 'passport';
+import User from './model/User';
+var JwtStrategy = require('passport-jwt').Strategy,
+ExtractJwt = require('passport-jwt').ExtractJwt;
+
 
 dotenv.config({ path: path.resolve(__dirname, '../config.env') });
 
@@ -13,7 +18,46 @@ const PORT = process.env.PORT || 8000;
 
 connection();
 
-app.use(express.json())
+
+
+passport.use(
+  new JwtStrategy({
+    jwtFromRequest : ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey : 'emmanuelagyemang'
+
+  }, function (jwt_payload: any, done: any) {
+    console.log(jwt_payload)
+    // User.findOne({ id: jwt_payload.id }, function (err: any, user: any) {
+    //   if (err) {
+    //     return done(err, false);
+    //   }
+    //   if (user) {
+    //     return done(null, user);
+    //   } else {
+    //     return done(null, false);
+    //     // or you could create a new account
+    //   }
+    // });
+  })
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+app.use(passport.initialize());
+app.use(express.json());
 app.use(routes);
 app.use(handleErrors);
 

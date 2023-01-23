@@ -1,8 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken'
-
-
+import jwt from 'jsonwebtoken';
+import { idText } from 'typescript';
 
 const User = new mongoose.Schema({
   firstname: {
@@ -54,9 +53,10 @@ User.methods.comparePasswords = async function (password: string) {
   return compare;
 };
 
-
-User.methods.jwtToken = function (payload: string) {
-  
+User.methods.jwtToken = function () {
+  return jwt.sign({ user_id: this._id, email: this.email }, "emmanuelagyemang", {
+    expiresIn: process.env.JWT_EXPIRES,
+  });
 };
 
 const userschema: any = mongoose.model('User', User);
