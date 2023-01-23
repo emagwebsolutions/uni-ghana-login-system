@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import Register from '../model/register';
+import User from '../model/User';
 import Errors from '../error/Errors';
 
 export const addUser = async (
@@ -15,7 +15,7 @@ export const addUser = async (
       return next(new Errors('All fields required!', 400));
     }
 
-    const reg = await Register.create({
+    const reg = await User.create({
       firstname,
       lastname,
       mobile,

@@ -1,7 +1,10 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken'
 
-const register = new mongoose.Schema({
+
+
+const User = new mongoose.Schema({
   firstname: {
     type: String,
     require: [true, 'Firstname required!'],
@@ -35,7 +38,7 @@ const register = new mongoose.Schema({
   passwordresetexpiry: Date,
 });
 
-register.pre('save', async function (next) {
+User.pre('save', async function (next) {
   if (!this.isModified('password')) {
     next();
   }
@@ -46,6 +49,16 @@ register.pre('save', async function (next) {
   next();
 });
 
-const registration = mongoose.model('Register', register);
+User.methods.comparePasswords = async function (password: string) {
+  const compare = await bcrypt.compare(password, this.password);
+  return compare;
+};
 
-export default registration;
+
+User.methods.jwtToken = function (payload: string) {
+  
+};
+
+const userschema: any = mongoose.model('User', User);
+
+export default userschema;
