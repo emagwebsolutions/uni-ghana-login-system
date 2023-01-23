@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import User from '../model/User';
 import Errors from '../error/Errors';
 
-export const addUser = async (
+ const addUser = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -34,3 +34,6 @@ export const addUser = async (
     next(err);
   }
 };
+
+
+export default addUser

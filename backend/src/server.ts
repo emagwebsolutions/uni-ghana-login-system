@@ -27,32 +27,19 @@ passport.use(
 
   }, function (jwt_payload: any, done: any) {
     console.log(jwt_payload)
-    // User.findOne({ id: jwt_payload.id }, function (err: any, user: any) {
-    //   if (err) {
-    //     return done(err, false);
-    //   }
-    //   if (user) {
-    //     return done(null, user);
-    //   } else {
-    //     return done(null, false);
-    //     // or you could create a new account
-    //   }
-    // });
+    User.findOne({ id: jwt_payload.user_id }, function (err: any, user: any) {
+      if (err) {
+        return done(err, false);
+      }
+      if (user) {
+        return done(null, user);
+      } else {
+        return done(null, false);
+        // or you could create a new account
+      }
+    });
   })
 );
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

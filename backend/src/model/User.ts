@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { idText } from 'typescript';
+import SECRET from '../config/secret';
 
 const User = new mongoose.Schema({
   firstname: {
@@ -54,10 +54,17 @@ User.methods.comparePasswords = async function (password: string) {
 };
 
 User.methods.jwtToken = function () {
-  return jwt.sign({ user_id: this._id, email: this.email }, "emmanuelagyemang", {
+  return jwt.sign({ user_id: this._id, email: this.email }, SECRET.SECRET_TOKEN, {
     expiresIn: process.env.JWT_EXPIRES,
   });
 };
+
+
+User.methods.passwordReset = function (token: string, time: string) {
+  this.passwordresettoken = token 
+  this.passwordresetexpiry = time
+};
+
 
 const userschema: any = mongoose.model('User', User);
 
